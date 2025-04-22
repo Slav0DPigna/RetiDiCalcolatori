@@ -1,5 +1,9 @@
 package Es4;
 
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
 /*
 Si vuole realizzare un'applicazione Communicator che, installata sulle macchine di una rete locale,
 consenta agli utenti delle diverse macchine di comunicare tra loro. Il Communicator dovrà offrire due funzionalità:
@@ -33,4 +37,47 @@ la ricezione di tali messaggi verrà gestita dal SocketListener
  */
 
 public class Communicator {
-}
+
+    static int multicastPort;
+    static int socketPort;
+
+    static void sendMcastDatagram(){
+        try{
+            while(true){
+                byte[] buf = new byte[50];
+                String strBuf="";
+                strBuf+=socketPort;
+                buf=strBuf.getBytes();
+                InetAddress mcastAddress = InetAddress.getByName("230.0.0.1");
+                MulticastSocket mSocket = new MulticastSocket();
+                DatagramPacket dp =  new DatagramPacket(buf, buf.length, mcastAddress, 2000);
+                System.out.println("\nCO>Invio datagramma multicast");
+                mSocket.send(dp);
+                Thread.sleep(20000);
+
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        catch (InterruptedException i){
+            i.printStackTrace();
+        }
+    }//sendMcastDatagram
+
+    public static void main(String[] args){
+        try{
+            multicastPort = 2000;//port aper ricevere i datagrammi
+            Scanner sc= new Scanner(System.in);
+            System.out.println("Porta TCP locale: ");
+            socketPort = Integer.parseInt(sc.next());
+            MulticastListener ml = new MulticastListener(multicastPort,socketPort);
+            SocketListener sl = new SocketListener(socketPort);
+            ml.start();
+            sl.start();
+            sendMcastDatagram();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }//main
+
+}//Communicator
