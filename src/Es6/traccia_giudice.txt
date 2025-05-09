@@ -1,0 +1,44 @@
+Si vuole realizzare un sistema distribuito su rete, per lo svolgimento di gare d'appalto
+per l'esecuzione di opere pubbliche. Il sistema è costituito da:
+1 applicazione Giudice di gara;
+n applicazioni Partecipanti (identificate da un intero id univoco).
+Un ente che intende realizzare un'opera pubblica invia al Giudice di gara una Richiesta,
+contenente la descrizione dell'opera da realizzare e l'importo massimo disponibile per la sua realizzazione.
+Il Giudice invia gli estremi della Richiesta a tutti i Partecipanti.
+Ciascun Partecipante risponde inviando al Giudice una Offerta,
+contenente l'id del Partecipante ed l'importo da esso richiesto per la realizzazione dell'opera.
+Il Giudice di gara seleziona quindi l'Offerta con l'importo richiesto inferiore
+(a parità di prezzo richiesto, seleziona l'Offerta con id del Partecipante inferiore).
+Questa Offerta, ritenuta vincitrice della gara, viene inviata
+ dal Giudice di gara all'ente richiedente, e, per notifica, a tutti i Partecipanti.
+Si richiede di realizzare in Java l'applicazione Giudice.
+----------------------------------------------------------------
+L'applicazione Giudice è basata sulle seguenti operazioni: 
+*Usa la porta TCP 2000 per la connessione da una applicazione remota 
+(che rappresenta l'ente che intende realizzare l'opera). 
+*L'applicazione connessa invia un oggetto istanza della classe Richiesta. 
+La classe Richiesta, che implementa l'interfaccia Serializable, 
+memorizza la descrizione dell'opera e l'importo massimo disponibile per la sua realizzazione. 
+*Comunica a tutti i Partecipanti una stringa con la descrizione dell'opera e l'importo massimo. 
+Per esempio, la stringa "Stadio olimpico di Arcavacata 1000". 
+La stringa viene inviata ai Partecipanti in broadcast
+(si usi la porta 3000 e l'indirizzo 230.0.0.1)
+-------------------------------------------------------------------
+*Usa la porta TCP 4000 per ricevere una sequenza di n connessioni da parte delle applicazioni
+Partecipanti (non è richiesto di gestire connessioni multiple).
+*Riceve un oggetto istanza della classe Offerta da ciascuna applicazione Partecipante connessa.
+La classe Offerta, che implementa Serializable,
+memorizza un intero che rappresenta l'id del Partecipante ed un intero che
+rappresenta l'importo richiesto per la realizzazione dell'opera.
+*Seleziona l'Offerta vincitrice. L'Offerta selezionata viene inviata all'applicazione remota
+(che rappresenta l'ente richiedente).
+A tutti i Partecipanti, inoltre, invia in broadcast una stringa contenente l'id del vincitore e
+l'importo da esso richiesto
+(ad esempio, la stringa "12 - 950" indica che il Partecipante con id 12 ha vinto la gara con un importo richiesto di 950).
+La costante n è nota all'applicazione Giudice. Si chiede di implementare anche le classi Richiesta e Offerta.
+________________________________________________________________________
+TODO
+Traccia Gara d'appalto avanzata. Elenco modifiche:
+1. Riceve un oggetto istanza della classe Offerta solo dai Partecipanti interessati alla garal d'appalto.
+ Attende le offerte per un tempo massimo pari ad 1 minuto. Allo scadere dell tempo massimo comunica l'offerta vincente.
+2. Il Giudice gestisce diverse gare d'appalto in parallelo (non una singola gara per volta).
