@@ -1,0 +1,9 @@
+Si realizzi un Web service che consenta di ricercare informazioni relative ai corsi erogati da una università.
+In particolare, il servizio espone i metodi:
+        *void aggiungiCorso (Corso corso)
+        *Corso getCorso(String nomeCorso).
+*Un oggetto di tipo Corso contiene le seguenti informazioni:
+programma, numero di crediti, docente, ore di lezione ed ore di esercitazione.
+*Si descrivano le principali fasi necessarie per la messa in opera del Web service tenendo
+conto dei tipi di dato trattati dal Web service, e si scriva un server che implementa il servizio.
+per vedere l'implementazione del prof guardare gli ultimi 10 minuti dell'esercitazione 6.
