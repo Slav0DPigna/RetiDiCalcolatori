@@ -13,6 +13,10 @@ public class Partecipanti extends Thread {
         this.id = id;
     }
 
+    public int getPartId(){
+        return this.id;
+    }
+
     public void run(){
         System.out.println("Partecipante: " + id);
         MulticastSocket mSocket = null;
@@ -24,7 +28,7 @@ public class Partecipanti extends Thread {
             byte[] buffer = new byte[512];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             mSocket.receive(packet);
-            String richiesta = new String(packet.getData());
+            String richiesta = new String(packet.getData(), 0, packet.getLength());
             String[] richiestaParts = richiesta.split(" ");//fatto malissimo questa app é fatta per funzionare con una sola richiesta
             String descrizione = richiestaParts[0];
             int importoMax = Integer.parseInt(richiestaParts[4].trim());//qui é il problema
@@ -48,6 +52,10 @@ public class Partecipanti extends Thread {
             e.printStackTrace();
         }
     }//run
+
+    public String getGIUDICE_ADDRESS(){
+        return GIUDICE_ADDRESS;
+    }
 
     public static void main(String[] args){
         int n=10;

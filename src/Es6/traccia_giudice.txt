@@ -41,4 +41,5 @@ TODO
 Traccia Gara d'appalto avanzata. Elenco modifiche:
 1. Riceve un oggetto istanza della classe Offerta solo dai Partecipanti interessati alla garal d'appalto.
  Attende le offerte per un tempo massimo pari ad 1 minuto. Allo scadere dell tempo massimo comunica l'offerta vincente.
-2. Il Giudice gestisce diverse gare d'appalto in parallelo (non una singola gara per volta).
+2. Il Giudice gestisce diverse gare d'appalto in parallelo (non una singola gara per volta), usando opportunamente
+strutture dati e thread per gestire tutto in modo concorrente e ordinato.
