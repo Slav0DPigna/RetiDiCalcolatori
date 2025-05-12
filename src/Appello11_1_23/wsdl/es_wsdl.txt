@@ -1,0 +1,72 @@
+Si realizzi un Web Service che permette di ottenere alcune informazioni sulle prenotazioni di un tour operator
+che gestisce diverse strutture sparse su territorio.
+Ogni struttura è caratterizzata da: nome, città, numero di stelle (da 1 a 5) e numero di posti letto.
+In particolare, il servizio espone:
+    1. un metodo che, dato il nome della struttura, restituisce il numero di persone che
+       hanno prenotato quella struttura nell'anno corrente (anno in cui viene inviata la richiesta).
+    2. un metodo che data una città e un numero di stelle, restituisce la struttura (se disponibile) di quella città,
+       avente un numero di stelle pari a quelle richieste,
+       che dispone del minor numero di posti liberi al momento della richiesta.
+come specificato nel file WSDL allegato.
+Si implementi in Java una classe che implementa il servizio.
+Scegliere le opportune strutture che:
+i) permettono di salvare le prenotazioni degli utenti;
+ii) ottimizzano l’esecuzione delle query.
+
+Allegato all’esercizio 4
+<wsdl:definitions targetNamespace="http://www.examples.com/wsdl/TourOperatorService">
+<wsdl:types>
+<schema targetNamespace="http://DefaultNamespace">
+<import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+<complexType name="Struttura">
+<sequence>
+<element name="Nome" type="xsd:string"/>
+<element name="Citta" type="xsd:string"/>
+<element name="Stelle" type="xsd:integer"/>
+<element name="Posti" type="xsd:integer"/>
+</sequence>
+<complexType>
+<schema>
+
+<wsdl:types>
+
+<wsdl:message name="NumeroPersoneRequest">
+<wsdl:part name="in0" type="xsd:string"/>
+</message>
+
+<wsdl:message name="NumeroPersoneResponse">
+<wsdl:part name="in0" type="xsd:integer"/>
+</message>
+
+<wsdl:message name="MiglioreStrutturaRequest">
+<wsdl:part name="in0" type="xsd: string"/>
+<wsdl:part name="in2" type="xsd: integer"/>
+</message>
+
+<wsdl:message name="MiglioreStrutturaResponse">
+    <wsdl:part name="in0" type="tns1:Struttura"/>
+</message>
+
+</wsdl:types>
+
+<wsdl:portType name="TourOperatorService">
+
+<wsdl:operation name="NumeroPersone" parameterOrder="in0">
+<wsdl:input message="impl:NumeroPersoneRequest" name="NumeroPersoneRequest" />
+<wsdl:output message="impl:NumeroPersoneResponse" name="NumeroPersoneResponse" />
+</operation>
+
+<wsdl:operation name="MiglioreStruttura" parameterOrder="in0 in1">
+<wsdl:input message="impl:MiglioreStrutturaRequest" name="MiglioreStrutturaRequest" />
+<wsdl:output message="impl:MiglioreStrutturaResponse" name="MiglioreStrutturaResponse" />
+</operation>
+
+</wsdl:portType>
+
+<wsdl:binding ...>
+...
+</wsdl:binding>
+<wsdl:service ...>
+...
+</wsdl:service>
+</wsdl:definitions>
