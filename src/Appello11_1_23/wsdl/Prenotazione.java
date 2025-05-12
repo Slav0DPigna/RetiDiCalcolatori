@@ -4,25 +4,19 @@ import java.io.Serializable;
 
 public class Prenotazione implements Serializable {
 
-    private String nomeStruttura;
-    private int anno;
-    private int numPersone;
+    int id,anno,numeroPersone;
+    String nome;
+    Struttura strutta;
 
-    public Prenotazione(String nomeStruttura, int anno, int numPersone) {
-        this.nomeStruttura = nomeStruttura;
-        this.anno = anno;
-        this.numPersone = numPersone;
+    public Prenotazione(int id, int anno, int numeroPersone,String nome, Struttura strutta) {
+        this.id = id;
+        this.anno=anno;
+        this.numeroPersone=numeroPersone;
+        this.nome = nome;
+        this.strutta = strutta;
     }
 
-    public String getNomeStruttura() {
-        return nomeStruttura;
-    }
-
-    public int getAnno() {
-        return anno;
-    }
-
-    public int getNumPersone() {
-        return numPersone;
+    public String toString(){
+        return "Prenotazione [id=" + id + ", nome=" + nome + "]";
     }
 }
