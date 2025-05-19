@@ -1,0 +1,24 @@
+Esercizio 2
+Si deve realizzare in Java un’applicazione di rete per la raccolta di dati da una rete di sensori
+distribuiti su un territorio. Il sistema è composto da tre tipologie di nodi:
+    • n nodi Sensori, caratterizzati da un id univoco, i quali inviano a intervalli di tempo prefissati
+      un oggetto di tipo Misura contenente l'ID del sensore, il valore misurato (un double)
+      e il timestamp in cui la misura è stata acquisita.
+    • k nodi Client, che richiedono al server informazioni sui dati raccolti dai sensori.
+    • 1 nodo Server, che raccoglie i dati dai sensori e gestisce le richieste dei client.
+Il Server espone i seguenti servizi mediante:
+    • Socket TCP sulla porta 3000: riceve da un client una stringa contenente l’id di un sensore.
+      Restituisce sullo stesso socket un oggetto di tipo Misura contenente l'id del sensore,
+      il valore misurato (un double) e il timestamp in cui la misura è stata acquisita.
+    • Socket UDP sulla porta 4000: riceve da un sensore un oggetto Misura e provvede a memorizzarlo
+      in un’apposita struttura dati. Ogni sensore, in particolare, invia una misura al server ogni 5 minuti.
+    • Un sensore viene considerato non funzionante se non ha inviato alcuna misura negli ultimi 10 minuti.
+      In questo caso, il Server invia, un messaggio sul gruppo multicast
+      caratterizzato dalla porta 5000 e dall'indirizzo 230.0.0.1.
+      Il messaggio conterrà gli ID dei sensori non funzionanti.
+
+È richiesto di gestire le connessioni multiple da parte del Server.
+Si realizzino le classi che implementino le funzionalità sopra descritte.
+Inoltre, si realizzino due main:
+1) il primo main crea e avvia il Server;
+2)il secondo main crea e avvia un Client che si collega al Server un servizio.
