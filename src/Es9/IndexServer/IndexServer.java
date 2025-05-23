@@ -1,4 +1,4 @@
-package IndexServer;
+package Es9.IndexServer;
 
 import java.io.*;
 import java.net.*;
@@ -16,7 +16,7 @@ public class IndexServer {
     public IndexServer() {
         data = Collections.synchronizedMap(new HashMap<File, InetAddress>());/*importantissimo questo passaggio
         altrimenti il codice solleverà eccezioni*/
-        System.out.println("IndexServer started");
+        System.out.println("Es9.IndexServer started");
         inizia();
     }
 
@@ -102,4 +102,4 @@ public class IndexServer {
     public static void main(String[] args) {
         IndexServer indexServer = new IndexServer();
     }
-}//IndexServer
+}//Es9.IndexServer

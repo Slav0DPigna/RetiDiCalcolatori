@@ -1,0 +1,56 @@
+Si realizzi un Web Service che permette di ottenere alcune informazioni sui voli di un aeroporto.
+In particolare, il servizio espone:
+1. un metodo che, dato il nome di una città C e una data D,
+   restituisce il codice del primo volo in partenza per C in data D.
+2. un metodo che, dato il codice di un volo V e una data D, restituisce l'orario di partenza di V in data D.
+come specificato nel file WSDL allegato.
+Si implementi in Java una classe che implementa il servizio.
+Si chiede di scegliere le opportune strutture che:
+i) permettono di memorizzare i voli;
+ii) ottimizzano l'esecuzione delle query.
+
+<wsdl:definitions targetNamespace="http://www.examples.com/wsdl/AirportService">
+<wsdl:types>
+<schema targetNamespace="http://DefaultNamespace">
+<import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    <complexType name="Data">
+    <sequence>
+        <element name="Giorno" type="xsd:int"/>
+        <element name="Mese" type="xsd:int"/>
+        <element name="Anno" type="xsd:int"/>
+    </sequence>
+
+    <complexType>
+    <complexType name="Orario">
+    <sequence>
+        <element name="Ore" type="xsd:int"/>
+        <element name="Minuti" type="xsd:int"/>
+    </sequence>
+<complexType>
+<schema>
+<wsdl:types>
+
+<wsdl:message name="PrimoVoloRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="tns1:Data"/>
+</message>
+    <wsdl:message name="PrimoVoloResponse">
+    <wsdl:part name="in0" type="xsd:string"/>
+</message>
+<wsdl:message name="Orario VoloRequest">
+    <wsdl:part name="in0" type="xsd:string"/>
+    <wsdl:part name="in1" type="tns1:Data"/>
+</message>
+<wsdl:message name="Orario VoloResponse">
+    <wsdl:part name="in0" type="tns1:Orario"/>
+</message>
+<wsdl:portType name="AirportService">
+    <wsdl:operation name="PrimoVolo" parameterOrder="in0 in1">
+        <wsdl:input message="impl:Primo VoloRequest" name=PrimoVoloRequest/>
+        <wsdl:output message="impl:Primo Volo Response" name=Primo VoloResponse/>
+    </operation>
+    <wsdl:operation name="OrarioVolo" parameterOrder="in0 in1">
+        <wsdl:input message="impl:Orario VoloRequest" name=Orario VoloRequest/>
+        <wsdl:output message="impl:Orario VoloResponse" name=Orario VoloResponse/>
+    </operation>
+</wsdl:portType>
