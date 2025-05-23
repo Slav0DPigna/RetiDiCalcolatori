@@ -1,0 +1,24 @@
+Si vuole realizzare un sistema di rete per la memorizzazione e la ricerca di file.
+Il sistema è composto da tre gruppi di nodi:
+* n StorageServer utilizzati per memorizzare i file.
+* 1 IndexServer utilizzato per indicizzare i file sulla base dei loro attributi e per supportare la loro ricerca.
+* m Client che possono memorizzare i file sugli StorageServer o cercarli utilizzando l'IndexServer.
+Ogni File è caratterizzato dai seguenti attributi di tipo String: filename (nome del file scelto dal Client)
+ed una lista di keywords utilizzate per classificare il contenuto del file.
+Ogni StorageServer rimane in ascolto sulla porta TCP 2000 in attesa di connessioni da parte dei Client.
+Quando un Client si connette, invia allo StorageServer il file da memorizzare (da simulare con un oggetto String)
+e gli attributi necessari per descriverlo (filename e keywords).
+_______________________________________________________________________________________________________________________
+L'IndexServer utilizza due porte e protocolli distinti per le sue funzioni:
+* Porta UDP 3000, su cui riceve da un generico StorageServer x l'informazione che x memorizza un nuovo file.
+ A tale scopo x invia mediante datagramma tutti gli attributi del file in modo da permetterne
+ l'indicizzazione sull'IndexServer, il quale a tale scopo utilizza idonee strutture dati.
+* Porta TCP 4000, su cui riceve da un generico Client x la richiesta di cercare tutti i file,
+  indicizzati dall'IndexServer, che soddisfino i valori degli attributi ricevuti tramite il socket.
+  Ad esempio, la ricerca con i parametri filename="song123", keywords=["classic", "2015"]>
+  restituirà gli indirizzi IP degli StorageServer contenenti i file con nome "song123"
+  e classificati con le keywords "classic" e "2015".
+Si assuma che i Client conoscano tutti gli StorageServer e che scelgano di volta
+in volta a caso quello su cui memorizzare un file.
+Il programma deve comprendere un main in cui un Client memorizza
+un file su uno StorageServer; questo file viene successivamente cercato da un altro Client rivolgendosi all'IndexServer.
