@@ -1,0 +1,26 @@
+Si vuole realizzare un'applicazione di rete in Java per gestire delle lotterie online.
+Il sistema è composto da un Banco e da un Client. 
+Ogni Lotteria è caratterizzata da un nome univoco. 
+Per partecipare a una lotteria, ogni Client acquista uno o più biglietti dal Banco.
+Ogni Biglietto è caratterizzato dal nome della lotteria e da un numero casuale univoco
+tra 1 e un 10.000 (non possono esistere due biglietti con lo stesso numero). 
+Il Banco svolge il ruolo di coordinatore delle lotterie. In particolare: 
+riceve sulla porta TCP 3000 una richiesta contenente il nome della lotteria e il numero di biglietti 
+che il Client vuole acquistare.
+Dopo aver verificato la disponibilità di biglietti per quella lotteria,
+restituisce una lista di oggetti di tipo Biglietto. 
+Dal momento in cui viene creata una lotteria, è possibile acquistarne
+i biglietti per un tempo massimo di 60 minuti. 
+Scaduto questo tempo, oppure se tutti i biglietti a disposizione sono stati venduti, 
+il Banco rifiuta le richieste di acquisto biglietti 
+restituendo un biglietto "nullo" caratterizzato dal numero zero. 
+Conclusa la fase di vendita dei biglietti il Banco estrae un numero in modo casuale
+per determinare il vincitore della lotteria e lo comunica in broadcast
+sul gruppo caratterizzato dall'indirizzo 230.0.0.1 e dalla porta 4000. 
+Il datagramma inviato conterrà il nome della lotteria e il numero del biglietto vincente. 
+Il Banco dovrà essere in grado di gestire più lotterie contemporaneamente. 
+Si realizzino una classe Banco e una classe Client che implementino le funzionalità sopra descritte.
+Inoltre, si realizzino due main: 
+1)il primo main crea e avvia il Banco (con hostname lotterie.unical.it), che avvia alcune lotterie;
+2) il secondo main crea e avvia un Client che si collega
+ al Banco per acquistare dei biglietti e attende l'esito della lotteria.
