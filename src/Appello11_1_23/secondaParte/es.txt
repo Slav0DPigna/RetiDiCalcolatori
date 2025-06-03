@@ -22,4 +22,3 @@ Si realizzino le classi che implementino le funzionalità sopra descritte.
 Inoltre, si realizzino due main:
 1) il primo main crea e avvia il Server;
 2)il secondo main crea e avvia un Client che si collega al Server un servizio.
-TODO
