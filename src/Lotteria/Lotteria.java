@@ -1,6 +1,7 @@
 package Lotteria;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Lotteria {
@@ -36,6 +37,19 @@ public class Lotteria {
                 r = new Biglietto(this.nome);
             }
             numBigliettiDisponibili--;
+        }
+        bigliettiVenduti.add(r);
+        return r;
+    }
+
+    public Biglietto estraiVincente(){
+        int ret = new Random().nextInt(1,bigliettiVenduti.size());
+        int i=0;
+        Iterator<Biglietto> iterator = bigliettiVenduti.iterator();
+        Biglietto r = null;
+        while (i<ret && iterator.hasNext()) {
+            r = iterator.next();
+            i++;
         }
         return r;
     }

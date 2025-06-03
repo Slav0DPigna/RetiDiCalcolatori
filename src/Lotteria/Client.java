@@ -12,8 +12,8 @@ public class Client {
         final int tPort=3000;
         final int uPort=4000;
         ArrayList<Biglietto> bigliettiTot = new ArrayList<Biglietto>();
-        for (int i = 0; i < 11; i++) {
-            int numBigliettiDaComprare = 1000;
+        for (int i = 0; i < 5; i++) {
+            int numBigliettiDaComprare = 12;
             System.out.println("Biglietti da comprare: " + numBigliettiDaComprare);
             Biglietto[] biglietti = null;
             try {
@@ -32,6 +32,20 @@ public class Client {
                 bigliettiTot.add(biglietto);
             }
         }
-        System.out.println(bigliettiTot);
+        System.out.println("Finito di comprare");
+        try {
+            MulticastSocket uSocket = new MulticastSocket(uPort);
+            uSocket.joinGroup(InetAddress.getByName("230.0.0.1"));
+            byte[] buf = new byte[1024];
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            uSocket.receive(packet);
+            String message = new String(packet.getData(),0,packet.getLength());
+            System.out.println(message);
+            for(Biglietto biglietto : bigliettiTot)
+                if(biglietto.toString().equals(message))
+                    System.out.println("Hai vinto col bigleitto "+biglietto);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }//main
 }//Client

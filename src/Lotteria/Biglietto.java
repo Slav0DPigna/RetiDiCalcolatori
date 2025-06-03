@@ -39,6 +39,6 @@ public class Biglietto implements Serializable {
     }
 
     public String toString() {
-        return "Nome lotteria: "+nomeLotteria+" id: "+id;
+        return nomeLotteria+":"+id;
     }
 }//Biglietto
