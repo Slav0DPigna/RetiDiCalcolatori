@@ -1,15 +1,21 @@
 package Appello11_1_23.secondaParte;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
+import java.util.Random;
 
-public class Sensore implements Serializable {
+public class Sensore extends Thread {
 
+    private final int tPort = 3000;
+    private final int uPort = 4000;
     private final int id;
     private Misura misura;
 
     public Sensore(int id) {
         this.id = id;
-        misura = new Misura(this.id,0);
+        misura = new Misura(this.id);
     }
 
     public Misura getMisura(){
@@ -35,6 +41,29 @@ public class Sensore implements Serializable {
 
     public String toString(){
         return ""+id;
+    }
+
+    public void run(){
+        try {
+            while(true) {
+                Thread.sleep(new Random().nextInt(1000,10000));//dovrebbe essere ogni 5 minuti l'invio della misura
+                this.misura.misura();
+                InetAddress mcastAddress = InetAddress.getByName("230.0.0.1");
+                MulticastSocket ms = new MulticastSocket(uPort);
+                byte[] buffer = this.misura.toString().getBytes();
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, mcastAddress, uPort);
+                ms.send(packet);
+                System.out.println("Inviata misura al server " + this.misura);
+            }
+        }catch(InterruptedException | IOException e){
+            e.printStackTrace();
+        }
+    }//run
+
+    public static void main(String[] args){
+        for(int i = 0; i <= 10; i++){
+            new Sensore(i).start();
+        }
     }
 
 }//Sensore
