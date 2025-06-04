@@ -29,8 +29,25 @@ public class Server{
                     Misura m = new Misura(Integer.parseInt(split[0]));
                     m.setValue(Double.parseDouble(split[1]));
                     m.setDataTime(Long.parseLong(split[2]));
-                    synchronized(misure){
-                        misure.add(m);
+                    synchronized(misure) {
+                        if(!misure.contains(m)) {
+                            misure.add(m);
+                        }else
+                            for (Misura mi : misure) {
+                                if (mi.getSensorId() == m.getSensorId() && (m.getDataTime()-mi.getDataTime())<=30) {
+                                    mi.setValue(Double.parseDouble(split[1]));
+                                    break;
+                                }
+                                if((m.getDataTime()-mi.getDataTime())>30) {
+                                    System.out.println("Rimuovo sensore "+mi);
+                                    MulticastSocket stopMs = new MulticastSocket(5000);
+                                    byte[] buffer = (mi.getSensorId()+"").getBytes();
+                                    DatagramPacket stopPacket = new DatagramPacket(buffer, buffer.length, address, 5000);
+                                    stopMs.send(stopPacket);
+                                    misure.remove(mi);
+                                    break;
+                                }
+                            }
                     }
                 }catch (IOException e){
                     e.printStackTrace();
@@ -61,6 +78,7 @@ public class Server{
                         }
                         if (!found) {
                             System.out.println("Sensore non presente");
+                            out.writeObject(new Misura(-1));
                         }
                         client.close();
                         s.close();

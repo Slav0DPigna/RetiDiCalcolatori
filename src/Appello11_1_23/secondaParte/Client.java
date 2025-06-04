@@ -10,7 +10,7 @@ public class Client extends Thread {
         int tPort=3000;
         try{
             while(true) {
-                Thread.sleep(new Random().nextInt(1000));
+                Thread.sleep(new Random().nextInt(10000));
                 Socket socket=new Socket("localhost",tPort);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 int sensorId = new Random().nextInt(0, 10);
@@ -18,12 +18,15 @@ public class Client extends Thread {
                 System.out.println("Inviato id sensore: " + sensorId + "\nAspetto dal server le informazioni del sensore");
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                 Misura m = (Misura) in.readObject();
-                System.out.println("Ricevuto misura: " + m.toString());
+                if(m.getSensorId()==-1)
+                    System.out.println("Sensore non presente");
+                else
+                    System.out.println("Ricevuto misura: " + m.toString());
                 out.close();
                 in.close();
                 socket.close();
             }
-        }catch (IOException | ClassNotFoundException | InterruptedException e){
+        }catch (IOException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
         }
     }//run

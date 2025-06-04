@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Sensore extends Thread {
 
@@ -44,9 +46,41 @@ public class Sensore extends Thread {
     }
 
     public void run(){
+        System.out.println("Sensore "+id+" partito...");
+        AtomicBoolean toStop = new AtomicBoolean(false);
+        new Thread(() -> {
+            while(true) {
+                try {
+                    MulticastSocket msStop = new MulticastSocket(5000);
+                    InetAddress group = InetAddress.getByName("230.0.0.1");
+                    msStop.joinGroup(group);
+                    byte[] bufferS = new byte[1024];
+                    DatagramPacket packetStop = new DatagramPacket(bufferS, bufferS.length);
+                    msStop.receive(packetStop);
+                    String stopMsg = new String(packetStop.getData());
+                    System.out.println("Stop message: "+stopMsg);
+                    if (stopMsg.contains("" + this.id)) {
+                        System.out.println("Sensore "+id+" da fermare");
+                        toStop.set(true);
+                        return;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
         try {
             while(true) {
-                Thread.sleep(new Random().nextInt(1000,10000));//dovrebbe essere ogni 5 minuti l'invio della misura
+                if(toStop.get()) {
+                    System.out.println("Sensore "+id+" fermato...");
+                    return;
+                }
+                Thread.sleep(new Random().nextInt(1000,60000));
+                /*dovrebbe essere ogni 5 minuti l'invio della misura
+                se supera i 10 minuti dovrebbe essere disattivato il sensore
+                in questo caso imposto che se il sensore risponde entro 30 secondi ok altrimenti lo tolgo dai sensori
+                attivi.
+                */
                 this.misura.misura();
                 InetAddress mcastAddress = InetAddress.getByName("230.0.0.1");
                 MulticastSocket ms = new MulticastSocket(uPort);

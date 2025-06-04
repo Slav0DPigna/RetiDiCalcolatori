@@ -35,6 +35,10 @@ public class Misura implements Serializable {
         return value;
     }
 
+    public long getDataTime(){
+        return dataTime;
+    }
+
     public int hashCode(){
         return sensorId;
     }
