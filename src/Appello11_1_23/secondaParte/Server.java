@@ -43,7 +43,7 @@ public class Server{
                                 }
                                 if((m.getDataTime()-mi.getDataTime())>30) {
                                     System.out.println("Rimuovo sensore "+mi);
-                                    toRemove=toRemove+mi.getSensorId();
+                                    toRemove=toRemove+":"+mi.getSensorId();
                                     toRemoveList.add(mi);
                                 }
                             }
