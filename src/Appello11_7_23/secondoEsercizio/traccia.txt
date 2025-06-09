@@ -1,0 +1,36 @@
+Si deve realizzare in Java un’applicazione di rete per gestire una piattaforma online per il monitoraggio dei prezzi
+dei prodotti venduti da un insieme di negozi sparsi sul territorio europeo. In particolare, il sistema è composto da:
+    • 1 nodo Server, m nodi Negozio, e n nodi Cliente
+Il sistema deve funzionare nel seguente modo:
+    • Ogni Negozio che vuole partecipare alla piattaforma con una propria offerta di vendita per un prodotto,
+      invia una richiesta al Server sulla porta TCP 3000.
+      La richiesta sarà un oggetto contenente: partita iva del negozio, sigla della nazione
+      (es. IT = Italia, FR=Francia, ecc.), codice prodotto, prezzo prodotto, quantità disponibile.
+      Una volta ricevuta l’offerta, il Server la salva all’interno di un’apposita struttura dati,
+      mantenendo un elenco ordinato di tutte le offerte ricevute, organizzate per nazione.
+      Il negozio può cancellare un’offerta re-inviando un’offerta per un prodotto nella quale
+      la quantità disponibile è pari a zero.
+      Se l’offerta migliore viene cancellata, la seconda offerta in lista viene eletta come la migliore.
+    • Il Server, ricevuta un’offerta, verifica se questa è più bassa della migliore offerta disponibile
+      per quel prodotto in quella nazione. In caso affermativo, invia un messaggio contenente
+      il codice del prodotto, il prezzo di vendita, la partita iva del negozio e la nazione sul gruppo multicast
+      caratterizzato dalla porta UDP 5000 e dall'indirizzo 230.0.0.1.
+      Tutti i negozi della stessa nazione, che vendono quel prodotto, una volta ricevuto il messaggio,
+      potranno decidere se replicare con una nuova offerta di vendita.
+    • I Clienti possono ricercare la migliore offerta di vendita per un prodotto, in funzione della nazione
+      di appartenenza. In particolare, un cliente apre una connessione socket TCP 4000 e invia al Server
+      una stringa contenente: il codice del prodotto, la sigla della nazione, un booleano che indica se l’utente
+      vuole registrarsi ad un servizio di notifica automatica (vedi punto successivo).
+      Il Server, a sua volta, risponde al cliente inviando la migliore offerta corrente,
+      per la nazione scelta, per quel prodotto (se non esiste alcuna offerta, restituisce una stringa vuota).
+    • Se il cliente, durante la richiesta precedente, ha dichiarato di volersi di registrarsi al servizio
+      di notifica automatica, viene notificato dal server ogni qual volta avvengono delle variazioni
+      del miglior prezzo per quel prodotto, nella nazione scelta.
+      In particolare, il server invia i dettagli dell’offerta (codice prodotto, prezzo, partita iva, nazione),
+      tramite invio di un messaggio sulla porta UDP 6000 dell’utente.
+Si realizzino le classi Server, Negozio e Cliente che implementino le funzionalità sopra descritte.
+Inoltre, si realizzino i seguenti main:
+    1. il primo main crea e avvia il Server;
+    2. il secondo main che avvia il Negozio, il quale partecipa alla piattaforma
+       con un’offerta e si mette in ascolto sul gruppo multicast.
+    3. il terzo main crea e avvia un Cliente che effettua una ricerca del prezzo di un prodotto.

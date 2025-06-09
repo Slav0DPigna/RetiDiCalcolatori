@@ -1,4 +1,4 @@
-package Appello8_2_2023.secondaParte;
+package Appello8_2_23.secondaParte;
 
 import java.io.Serializable;
 import java.util.Date;
