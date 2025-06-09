@@ -6,10 +6,10 @@ In particolare, il sistema è composto da:
     • n nodi Client, che inviano richieste al server;
     • 1 nodo Server, che gestisce le richieste dei client.
 Il Server espone i seguenti servizi mediante:
-    • Socket TCP sulla porta 3000: riceve da un client una richiesta di partecipazione ad un concorso,
+    • Socket TCP sulla porta 3000: riceve da un client una richiesta di partecipazione a un concorso,
       il quale invia un oggetto Partecipazione contenente l’id del concorso a cui si vuole partecipare,
       il nome e cognome del candidato, il suo codice fiscale e il suo curriculum (una stringa).
-      Il server verifica che tutti i campi previsti siano stati compilati e che la domanda
+	  Il server verifica che tutti i campi previsti siano stati compilati e che la domanda
       non sia stata inviata oltre la scadenza del bando.
       Se l’invio è stato fatto in maniera corretta, restituisce al client un ID univoco di protocollo (integer),
       seguito dal timestamp in cui la richiesta è stata acquisita
@@ -17,7 +17,7 @@ Il Server espone i seguenti servizi mediante:
       altrimenti restituisce una stringa “NOT_ACCEPTED”.
     • Socket UDP sulla porta 4000: riceve da client una richiesta di cancellazione di una precedente domanda inviata.
       In particolare, il client invia al server l’ID del protocollo della propria domanda.
-      Se presente, il server procede ad eliminarla e restituisce al client l’esito dell’operazione (true/false).
+      Se presente, il server procede a eliminarla e restituisce al client l’esito dell’operazione (true/false).
     • Allo scadere di ogni concorso attivo, il Server invia, un messaggio sul gruppo multicast
       caratterizzato dalla porta 5000 e dall'indirizzo 230.0.0.1.
       Il messaggio conterrà l’ID del concorso, seguito dalla lista dei codici fiscali dei vincitori
@@ -28,3 +28,7 @@ Inoltre, si realizzino due main:
 1) il primo main crea e avvia il Server con 2 o più concorsi attivi;
 2) il secondo main crea e avvia un Client invia al Server una richiesta di partecipazione
    e si mette in attesa sul gruppo broadcast dell’esito del concorso.
+
+
+questo é stato l'appello piú fallimentare che ho fatto dato che non lo capivo mai fino in fondo infatto nemmeno
+l'ho finito passo al prossimo che é meglio.
