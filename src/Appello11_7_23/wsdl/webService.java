@@ -20,11 +20,20 @@ public class webService implements Serializable {
      */
 
     public void updatePrezzo(PrezzoProdotto p){
-        for(PrezzoProdotto pp: grossisti.get(new Grossista(p.pIva,"")))
-            if(pp.nomeProdotto.equals(p.nomeProdotto)) {
-                pp.price = p.price;
+        Grossista currentG= null;
+        for(Grossista g: grossisti.keySet()){
+            if(g.pIva.equals(p.pIva)){
+                currentG=g;
                 break;
             }
+        }
+        for(int i=0;i<grossisti.get(currentG).size();i++){
+            if( grossisti.get(currentG).get(i).nomeProdotto.equals(p.nomeProdotto)){
+                grossisti.get(currentG).get(i).price=p.price;
+                System.out.println("prezzo aggiornato");
+                break;
+            }
+        }
     }//updatePrezzo
 
     public String minorPrezzoMedio(String ortaggio){//restituisce la regione col prezzo medio minore
@@ -47,11 +56,16 @@ public class webService implements Serializable {
                     }
                 }
             }
-            int mediaNew=total/count;
+            int mediaNew=0;
+            if(count!=0)
+                mediaNew=total/count;
             if(mediaNew>media) {
                 media = mediaNew;
                 r=p;
             }
+            media=0;
+            total=0;
+            count=0;
         }
             return r;
     }//minorPrezzoMedio
