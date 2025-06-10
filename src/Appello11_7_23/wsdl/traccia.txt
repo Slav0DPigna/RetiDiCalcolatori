@@ -1,0 +1,54 @@
+Si realizzi un Web Service per il monitoraggio dei prezzi degli ortaggi all’ingrosso su tutto il territorio nazionale.
+Ogni ortaggio è identificato in modo univoco dal nome, mentre un Grossista è identificato dalla partita
+iva e dalla provincia di appartenenza. In particolare, il servizio espone:
+    1. Un metodo che consente a un Grossista di aggiornare il prezzo di vendita di particolare ortaggio,
+       inviando al server un oggetto contenente la propria partita iva,
+       il nome del prodotto e il nuovo prezzo di vendita;
+    2. Un metodo che dato il nome di un ortaggio,
+       restituisce il nome della provincia con il minor prezzo medio di vendita nell’anno corrente.
+Come specificato nel file WSDL allegato. Si implementi in Java una classe che implementa il servizio.
+
+<wsdl:types>
+<schema targetNamespace="http://ortaggi.dimes.unical.it">
+
+   <wsdl:types>
+      <schema targetNamespace="http://DefaultNamespace">
+        <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+        <complexType name="PrezzoProdotto">
+            <sequence>
+                  <element name="partitaIva" type="xsd:string"/>
+                  <element name="nomeOrtaggio" type="xsd:string"/>
+                  <element name="prezzo" type="xsd:double"/>
+           </sequence>
+        </complexType>
+      <schema>
+   <wsdl:types>
+
+   <wsdl:message name="UpdatePrezzoRequest">
+      <wsdl:part name="prezzoProdotto" type=”impl:PrezzoProdotto"/>
+   </message>
+
+   <wsdl:message name="UpdatePrezzoResponse">
+   </message>
+
+   <wsdl:message name="MinPrezzoMedioRequest">
+      <wsdl:part name="ortaggio" type=" xsd:string"/>
+   </message>
+
+   <wsdl:message name="MinPrezzoMedioResponse">
+      <wsdl:part name="provincia" type="impl:string"/>
+   </message>
+
+   <wsdl:portType name="UpdatePrezzo">
+      <wsdl:operation name=”UpdatePrezzo” parameterOrder=”updatePrezzoRequest">
+         <wsdl:input message=”impl:UpdatePrezzoRequest” name=”updatePrezzoRequest” />
+         <wsdl:output message=”impl:UpdatePrezzoResponse” name=”updatePrezzoResponse” />
+      </operation>
+
+      <wsdl:operation name="MinPrezzoMedio" parameterOrder="nomeOrtaggio">
+         <wsdl:input message="impl:MinPrezzoMedioRequest" name=”MinPrezzoMedioRequest” />
+         <wsdl:output message="impl:MinPrezzoMedioResponse" name=”MinPrezzoMedioResponse” />
+      </operation>
+  </wsdl:portType>
+ <wsdl:binding ...>
